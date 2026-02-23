@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Cuenta de Cobro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            margin: 0;
+        }
+
+        body {
+            font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.5;
+        }
+
+        .page {
+            max-width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            background: white;
+            position: relative;
+        }
+
+        .header-bar {
+            height: 8px;
+            background: linear-gradient(90deg, #1a1a1a 0%, #4a4a4a 100%);
+        }
+
+        .header-content {
+            padding: 20px 60px 30px 60px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .header-grid {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .logo-box {
+            padding-top: 40px;
+            margin-right: 30px;
+        }
+
+        .document-info {
+            padding-top: 20px;
+        }
+
+        .document-title {
+            font-size: 24px;
+            font-weight: 300;
+            color: #1a1a1a;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(2, auto);
+            gap: 2px 25px;
+            width: fit-content;
+        }
+
+        .meta-label {
+            color: #666;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-value {
+            color: #1a1a1a;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .content-area {
+            padding: 20px 60px;
+        }
+
+        .info-section {
+            margin-bottom: 45px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 0px;
+        }
+
+        .info-box {
+            border-left: 3px solid #1a1a1a;
+            padding-left: 20px;
+        }
+
+        .info-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 18px;
+        }
+
+        .info-line {
+            font-size: 13px;
+            color: #333;
+            margin: 8px 0;
+            display: grid;
+            grid-template-columns: 110px 1fr;
+        }
+
+        .info-line-label {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .info-line-value {
+            color: #1a1a1a;
+        }
+
+        .section-header {
+            font-size: 11px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 30px;
+            padding-bottom: 4px;
+            border-bottom: 2px solid #1a1a1a;
+        }
+
+        .table-wrapper {
+            margin-top: 15px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .invoice-table thead {
+            background: #f5f5f5;
+        }
+
+        .invoice-table th {
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #1a1a1a;
+        }
+
+        .invoice-table th:last-child {
+            text-align: right;
+        }
+
+        .invoice-table td {
+            padding: 20px;
+            font-size: 13px;
+            color: #333;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .invoice-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .invoice-table .amount-cell {
+            text-align: right;
+            font-weight: 600;
+            color: #1a1a1a;
+            font-size: 14px;
+        }
+
+
+        .total-label {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .total-amount {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .payment-box {
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            margin: 15px 0 60px 0;
+        }
+
+        .payment-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px 30px;
+        }
+
+        .payment-item {
+            font-size: 13px;
+        }
+
+        .payment-item-label {
+            color: #666;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .payment-item-value {
+            color: #1a1a1a;
+            font-weight: 400;
+        }
+
+        .signature-area {
+            margin-top: 20px;
+            padding-top: 40px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .signature-container {
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        .signature-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0px;
+            text-align: center;
+        }
+
+        .signature-line {
+            text-align: center;
+        }
+
+        .signature-line>img {
+            width: 110px;
+            border-bottom: 2px solid #1a1a1a;
+        }
+
+        .signature-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .signature-id {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .footer-bar {
+            background: #f5f5f5;
+            padding: 10px 60px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .footer-text {
+            font-size: 11px;
+            color: #666;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .footer-text p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <div class="header-bar"></div>
+        <header class="header-content">
+            <div class="header-grid">
+                <div class="logo-box">
+                    <img class="logo" src="assets/img/jjm.png" style="max-width:140px;" />
+                </div>
+                <div class="document-info">
+                    <h1 class="document-title">Cuenta de Cobro</h1>
+                    <div class="meta-grid">
+                        <span class="meta-label">Número:</span>
+                        <span class="meta-value">{{ numero }}</span>
+                        <span class="meta-label">Fecha:</span>
+                        <span class="meta-value">{{ fecha }}</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-area">
+            <!-- Información de las partes -->
+            <div class="info-grid">
+                <div class="info-box">
+                    <div class="info-title">Emisor</div>
+                    <div class="info-line">
+                        <span class="info-line-label">Nombre:</span>
+                        <span class="info-line-value">Oscar Fernando Contreras Cruz</span>
+                    </div>
+                    <div class="info-line">
+                        <span class="info-line-label">Identificación:</span>
+                        <span class="info-line-value">C.C. 1019010844</span>
+                    </div>
+                    <div class="info-line">
+                        <span class="info-line-label">Ciudad:</span>
+                        <span class="info-line-value">Medellín, Colombia</span>
+                    </div>
+                    <div class="info-line">
+                        <span class="info-line-label">Teléfono:</span>
+                        <span class="info-line-value">300 621 35 08</span>
+                    </div>
+                    <div class="info-line">
+                        <span class="info-line-label">Email:</span>
+                        <span class="info-line-value">info@kickranking.com</span>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <div class="info-title">Cliente</div>
+                    <div class="info-line">
+                        <span class="info-line-label">Razón Social:</span>
+                        <span class="info-line-value">{{ razon_social }}</span>
+                    </div>
+                    <div class="info-line">
+                        <span class="info-line-label">NIT:</span>
+                        <span class="info-line-value">{{ nit }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Servicios -->
+            <h2 class="section-header">Descripción de Servicios</h2>
+            <div class="table-wrapper">
+                <table class="invoice-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ servicio }}</td>
+                            <td class="amount-cell">{{ precio }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <!-- Información de pago -->
+            <h2 class="section-header">Información de Pago</h2>
+            <div class="payment-box">
+                <div class="payment-title">Transferencia Bancaria</div>
+                <div class="payment-grid">
+                    <div class="payment-item">
+                        <span class="payment-item-label">Banco</span>
+                        <div class="payment-item-value">Bancolombia</div>
+                    </div>
+                    <div class="payment-item">
+                        <span class="payment-item-label">Tipo de Cuenta</span>
+                        <div class="payment-item-value">Ahorros</div>
+                    </div>
+                    <div class="payment-item">
+                        <span class="payment-item-label">Número de Cuenta</span>
+                        <div class="payment-item-value">27898148331</div>
+                    </div>
+                    <div class="payment-item">
+                        <span class="payment-item-label">Titular</span>
+                        <div class="payment-item-value">Oscar Fernando Contreras Cruz</div>
+                    </div>
+                    <div class="payment-item">
+                        <span class="payment-item-label">Identificación</span>
+                        <div class="payment-item-value">C.C. 1019010844</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Firma -->
+            <div class="signature-area">
+                <div class="signature-container">
+                    <div class="signature-title">Firma del Emisor</div>
+                    <div class="signature-line">
+                        <img src="assets/img/Screenshot 2026-02-07 123103.png" alt="Firma" />
+                        <div class="signature-name">Oscar Fernando Contreras Cruz</div>
+                        <div class="signature-id">C.C. 1019010844</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <div class="footer-text">
+                <p>Este documento constituye una cuenta de cobro por los servicios profesionales prestados.</p>
+                <p>Para consultas o aclaraciones, contactar al emisor mediante los datos de contacto suministrados.</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

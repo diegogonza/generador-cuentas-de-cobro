@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generador de Cuentas de Cobro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+</head>
+
+<body>
+    <!-- Background decoration -->
+    <div class="bg-decoration">
+        <div class="bg-circle bg-circle-1"></div>
+        <div class="bg-circle bg-circle-2"></div>
+        <div class="bg-circle bg-circle-3"></div>
+    </div>
+
+    <main class="container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-badge">
+                <span class="badge-dot"></span>
+                Sistema de Facturación
+            </div>
+            <h1 class="app-title">Generador de<br /><span class="accent">Cuentas de Cobro</span></h1>
+            <p class="app-subtitle">Crea tu documento en segundos. Rellena el formulario y descarga tu PDF.</p>
+        </header>
+
+        <!-- Counter card -->
+        <div class="counter-card">
+            <div class="counter-info">
+                <span class="counter-label">Próximo número de cuenta</span>
+                <span class="counter-number" id="invoice-number">{{ next_numero }}</span>
+            </div>
+            <div class="counter-date-info">
+                <span class="counter-label">Fecha de emisión</span>
+                <span class="counter-date">{{ fecha_hoy }}</span>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form id="invoice-form" action="/generar-pdf" method="post" class="invoice-form">
+
+            <!-- ── Sección 1: Datos del cliente ── -->
+            <section class="form-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="section-title">Datos del Cliente</h2>
+                        <p class="section-desc">Información de la empresa o persona a la que se le cobra</p>
+                    </div>
+                </div>
+
+                <div class="fields-grid">
+                    <div class="field-group">
+                        <label class="field-label" for="razon_social">Razón Social</label>
+                        <input id="razon_social" name="razon_social" type="text" class="field-input"
+                            placeholder="Ej. Empresa S.A.S." required />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label" for="nit">NIT</label>
+                        <input id="nit" name="nit" type="text" class="field-input" placeholder="Ej. 900123456-7"
+                            required />
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── Sección 2: Servicio ── -->
+            <section class="form-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                            <path d="M2 17l10 5 10-5" />
+                            <path d="M2 12l10 5 10-5" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="section-title">Servicio</h2>
+                        <p class="section-desc">Selecciona el tipo de servicio prestado</p>
+                    </div>
+                </div>
+
+                <div class="options-grid" id="service-grid">
+                    <label class="option-card selected" data-group="service">
+                        <input type="radio" name="servicio"
+                            value="Servicio de optimización y posicionamiento SEO para buscadores" checked hidden />
+                        <div class="option-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg></div>
+                        <div class="option-icon">🔍</div>
+                        <span class="option-title">SEO &amp; Posicionamiento</span>
+                        <span class="option-desc">Servicio de optimización y posicionamiento SEO para buscadores</span>
+                    </label>
+                    <label class="option-card" data-group="service">
+                        <input type="radio" name="servicio" value="Servicio de desarrollo web optimizado para SEO"
+                            hidden />
+                        <div class="option-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg></div>
+                        <div class="option-icon">💻</div>
+                        <span class="option-title">Desarrollo Web</span>
+                        <span class="option-desc">Servicio de desarrollo web optimizado para SEO</span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- ── Sección 3: Precio ── -->
+            <section class="form-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23" />
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="section-title">Precio</h2>
+                        <p class="section-desc">Define el valor a cobrar y la moneda</p>
+                    </div>
+                </div>
+
+                <!-- Currency toggle -->
+                <div class="currency-row">
+                    <span class="currency-label">Moneda:</span>
+                    <div class="currency-toggle">
+                        <input type="radio" name="moneda" id="cop" value="COP" checked hidden />
+                        <label class="currency-btn active" for="cop" id="cop-btn">
+                            <span>🇨🇴</span> COP
+                        </label>
+                        <input type="radio" name="moneda" id="usd" value="USD" hidden />
+                        <label class="currency-btn" for="usd" id="usd-btn">
+                            <span>🇺🇸</span> USD
+                        </label>
+                    </div>
+                </div>
+
+                <div class="options-grid three-col" id="price-grid">
+                    <label class="option-card selected" data-group="price">
+                        <input type="radio" name="precio_opcion" value="2000000" checked hidden />
+                        <div class="option-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg></div>
+                        <span class="price-amount" id="price-a">$2.000.000</span>
+                        <span class="option-desc" id="price-a-label">COP</span>
+                    </label>
+                    <label class="option-card" data-group="price">
+                        <input type="radio" name="precio_opcion" value="2500000" hidden />
+                        <div class="option-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg></div>
+                        <span class="price-amount" id="price-b">$2.500.000</span>
+                        <span class="option-desc" id="price-b-label">COP</span>
+                    </label>
+                    <label class="option-card" data-group="price" id="libre-card">
+                        <input type="radio" name="precio_opcion" value="libre" hidden />
+                        <div class="option-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg></div>
+                        <span class="price-amount">Personalizado</span>
+                        <span class="option-desc">Ingresa el valor</span>
+                    </label>
+                </div>
+
+                <!-- Custom price input (shown when "libre" is selected) -->
+                <div class="free-price-wrapper" id="free-price-wrapper">
+                    <div class="field-group">
+                        <label class="field-label" for="precio_libre">Valor personalizado</label>
+                        <div class="input-with-prefix">
+                            <span class="input-prefix" id="currency-prefix">$</span>
+                            <input id="precio_libre" name="precio_libre" type="number" class="field-input"
+                                placeholder="Ej. 1800000" min="0" step="1000" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── Submit ── -->
+            <div class="submit-area">
+                <button type="submit" class="btn-generate" id="submit-btn">
+                    <svg class="btn-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="12" y1="18" x2="12" y2="12" />
+                        <line x1="9" y1="15" x2="15" y2="15" />
+                    </svg>
+                    <span class="btn-text">Generar PDF</span>
+                    <span class="btn-sub">Cuenta #{{ next_numero }} · {{ fecha_hoy }}</span>
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>
