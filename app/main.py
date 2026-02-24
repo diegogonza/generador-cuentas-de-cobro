@@ -13,7 +13,12 @@ from jinja2 import Environment, FileSystemLoader
 # ─── Paths ──────────────────────────────────────────────────
 BASE_DIR = Path(__file__).parent.parent          # repo root
 APP_DIR  = Path(__file__).parent
-COUNTER_FILE = BASE_DIR / "counter.json"
+
+# COUNTER_FILE: en producción (Railway), apunta al volumen persistente.
+# En local, cae de vuelta a counter.json en la raíz del repo.
+_default_counter = BASE_DIR / "counter.json"
+COUNTER_FILE = Path(os.getenv("COUNTER_FILE", str(_default_counter)))
+
 TEMPLATES_DIR = APP_DIR / "templates"
 ASSETS_DIR   = BASE_DIR / "assets"
 
