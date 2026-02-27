@@ -1,5 +1,6 @@
-fastapi
-uvicorn[standard]
-weasyprint
-jinja2
-python-multipart
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0
+gunicorn>=22.0.0
+weasyprint>=62.0
+jinja2>=3.1.4
+python-multipart>=0.0.9
